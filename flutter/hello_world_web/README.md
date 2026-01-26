@@ -31,3 +31,9 @@ Found 1 connected devices:
 ```
 fvm flutter pub get
 ```
+
+4. [OPTIONAL] To run on Cloud IDE
+
+```
+./hot_reload.sh
+```
