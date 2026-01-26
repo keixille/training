@@ -45,3 +45,6 @@ app.*.map.json
 /windows/
 /ios/
 /android/
+
+# FVM Version Cache
+.fvm/
