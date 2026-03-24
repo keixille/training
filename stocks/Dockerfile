@@ -1,31 +1,32 @@
-FROM node:22-alpine AS builder
+# --- Stage 1: Builder ---
+FROM node:25.8.1-alpine AS builder
 
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm ci
+RUN npm install -g pnpm
 
-# Copy source code and build
+COPY pnpm-lock.yaml package.json ./
+RUN pnpm install --frozen-lockfile
+
 COPY . .
-RUN npm run build
+RUN pnpm run build
 
 # --- Stage 2: Production Runner ---
-FROM node:22-alpine AS runner
+FROM node:25.8.1-alpine AS runner
 
-# Best Practice: Run as a non-root user for security
 USER node
 WORKDIR /app
 
 ENV NODE_ENV=production
 
-# Only copy production dependencies
-COPY package*.json ./
-RUN npm ci --only=production
+RUN npm install -g pnpm
 
-# Copy compiled JS files from builder stage
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --prod --frozen-lockfile
+
 COPY --from=builder /app/dist ./dist
 
+# --- Stage 3: Run Application ---
 EXPOSE 3000
 
-# Start the server using the compiled JS
 CMD ["node", "dist/server.js"]

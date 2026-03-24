@@ -6,6 +6,11 @@
     "moduleResolution": "NodeNext",
     "outDir": "./dist",
     "rootDir": "./src",
+    "baseUrl": ".",
+    "paths": {
+      "db/*": ["src/db/*"],
+      "services/*": ["src/services/*"]
+    },
 
     /* Strict Type-Checking */
     "strict": true,

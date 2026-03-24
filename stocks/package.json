@@ -10,21 +10,33 @@
     "start": "node dist/server.js",
     "lint": "biome check src/",
     "lint:fix": "biome check --write src/",
-    "format": "biome format --write src/"
+    "format": "biome format --write src/",
+    "db:generate": "drizzle-kit generate && tsx src/scripts/patch-migrations.ts",
+    "db:push": "drizzle-kit push",
+    "test:integration": "vitest run"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.15.0",
   "dependencies": {
+    "drizzle-orm": "^0.45.1",
     "fastify": "^5.8.2",
     "fastify-type-provider-zod": "^6.1.0",
+    "pg": "^8.20.0",
+    "playwright": "^1.58.2",
     "zod": "^4.3.6"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.8",
+    "@testcontainers/postgresql": "^11.13.0",
     "@types/node": "^25.5.0",
+    "@types/pg": "^8.20.0",
+    "drizzle-kit": "^0.31.10",
+    "testcontainers": "^11.13.0",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vite-tsconfig-paths": "^6.1.1",
+    "vitest": "^4.1.1"
   }
 }
