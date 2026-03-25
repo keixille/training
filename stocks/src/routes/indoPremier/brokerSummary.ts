@@ -1,6 +1,5 @@
 import type { FastifyInstance } from 'fastify';
 import { z } from 'zod';
-import { fetchDaily } from '../../services/indoPremier/brokerSummary.js';
 
 const BrokerSummaryPayload = z.object({
   stockCode: z.string().regex(/^[A-Z]{4}$/, {
@@ -14,6 +13,8 @@ const BrokerSummaryPayload = z.object({
 export async function brokerSummaryRoutes(app: FastifyInstance) {
   app.get('/broker-summary/daily', async (request, _) => {
     const payload = BrokerSummaryPayload.parse(request.params);
-    return fetchDaily(payload.stockCode, payload.tradeDate);
+    const data = await app.brokerSummaryService.fetchDaily(payload.stockCode, payload.tradeDate);
+
+    return { success: true, data };
   });
 }
